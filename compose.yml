@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+
+  db:
+    build: ./user_api/postgres
+    container_name: user_api_db
+    restart: always
+    environment:
+      POSTGRES_USER: denis
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: user_api
+    ports:
+      - 8082:5432
+
+  tomcat:
+    image: tomcat:9-jre10
+    container_name: user_api_tomcat
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./user_api/target/user_api.war:/usr/local/tomcat/webapps/user_api.war
+    depends_on:
+      - db
+
+  tomcatclient:
+    image: tomcat:9-jre10
+    container_name: client
+    restart: always
+    ports:
+      - 8083:8080
+    volumes:
+      - ./client/target/client.war:/usr/local/tomcat/webapps/client.war
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - db
