@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class AppController {
-    private static final String URL = "http://localhost:8080/user_api/api/users";
+    private static final String URL = "http://tomcat:8080/user_api/api/users";
     private static final RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping("/")
